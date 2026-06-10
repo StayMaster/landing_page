@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-stone-50 text-stone-900 antialiased transition-colors duration-300;
+  }
+
+  html.dark body {
+    @apply bg-stone-950 text-stone-100;
+  }
+
+  [dir='rtl'] body {
+    font-family: 'IBM Plex Sans Arabic', 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  /* Wide shell — almost edge-to-edge like zahmaola.com */
+  .section-shell {
+    @apply mx-auto w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24;
+  }
+
+  .section-shell-wide {
+    @apply mx-auto w-full max-w-[1920px] px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20;
+  }
+
+  .section-pad {
+    @apply py-20 md:py-28 lg:py-32;
+  }
+
+  .display-title {
+    @apply text-4xl font-extrabold leading-[1.05] tracking-tight text-stone-900 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white;
+  }
+
+  .hero-title {
+    @apply text-5xl font-extrabold leading-[1.02] tracking-tight text-stone-900 sm:text-6xl md:text-7xl lg:text-8xl xl:text-[5.5rem] dark:text-white;
+  }
+
+  .card {
+    @apply rounded-[2rem] border border-stone-200/80 bg-white/90 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 dark:border-stone-800/80 dark:bg-stone-900/90 md:p-10;
+  }
+
+  .card-hover {
+    @apply card hover:-translate-y-1 hover:border-brand-300/50 hover:shadow-xl hover:shadow-brand-500/10 dark:hover:border-brand-700/50;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-8 py-4 text-base font-bold text-white shadow-lg shadow-brand-600/25 transition-all hover:bg-brand-500 hover:shadow-brand-500/35 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:focus:ring-offset-stone-950;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-2 border-stone-300 bg-white/90 px-8 py-4 text-base font-bold text-stone-800 backdrop-blur-sm transition-all hover:border-brand-400 hover:bg-brand-50 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:border-stone-600 dark:bg-stone-900/90 dark:text-stone-100 dark:hover:border-brand-600 dark:hover:bg-brand-950 dark:focus:ring-offset-stone-950;
+  }
+
+  .section-label {
+    @apply mb-4 inline-block text-xs font-bold uppercase tracking-[0.2em] text-brand-600 dark:text-brand-400;
+  }
+
+  .section-title {
+    @apply text-4xl font-extrabold leading-[1.08] tracking-tight text-stone-900 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white;
+  }
+
+  .section-subtitle {
+    @apply mt-6 max-w-3xl text-xl leading-relaxed text-stone-600 md:text-2xl dark:text-stone-400;
+  }
+
+  .prose-legal {
+    @apply prose prose-stone max-w-none dark:prose-invert prose-headings:font-bold prose-a:text-brand-600;
+  }
+
+  /* Horizontal scroll row */
+  .scroll-row {
+    @apply flex gap-5 overflow-x-auto pb-4 pt-2 snap-x snap-mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scroll-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scroll-card {
+    @apply snap-start shrink-0;
+  }
+
+  .scroll-card-audience {
+    @apply scroll-card min-w-[88vw] sm:min-w-[440px] lg:min-w-[520px];
+  }
+
+  .scroll-card-feature {
+    @apply scroll-card min-w-[85vw] sm:min-w-[380px] lg:min-w-[420px];
+  }
+
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  .animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .animate-on-scroll.delay-100 { transition-delay: 100ms; }
+  .animate-on-scroll.delay-200 { transition-delay: 200ms; }
+  .animate-on-scroll.delay-300 { transition-delay: 300ms; }
+  .animate-on-scroll.delay-400 { transition-delay: 400ms; }
+
+  .blob {
+    animation: blobFloat 14s ease-in-out infinite;
+  }
+
+  .blob-emerald {
+    animation-delay: -4s;
+  }
+
+  .blob-violet {
+    animation-delay: -8s;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .dark .logo-google-vr {
+    filter: brightness(0.9);
+  }
+}
+
+@keyframes blobFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(2%, -3%) scale(1.04); }
+  66% { transform: translate(-2%, 2%) scale(0.98); }
+}

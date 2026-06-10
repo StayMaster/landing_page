@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 48" role="img" aria-label="Google Vacation Rentals">
+  <rect width="280" height="48" rx="8" fill="#f8f9fa"/>
+  <text x="24" y="32" fill="#4285F4" font-family="system-ui,sans-serif" font-size="20" font-weight="700">G</text>
+  <text x="44" y="32" fill="#EA4335" font-family="system-ui,sans-serif" font-size="20" font-weight="700">o</text>
+  <text x="64" y="32" fill="#FBBC05" font-family="system-ui,sans-serif" font-size="20" font-weight="700">o</text>
+  <text x="84" y="32" fill="#4285F4" font-family="system-ui,sans-serif" font-size="20" font-weight="700">g</text>
+  <text x="104" y="32" fill="#34A853" font-family="system-ui,sans-serif" font-size="20" font-weight="700">l</text>
+  <text x="114" y="32" fill="#EA4335" font-family="system-ui,sans-serif" font-size="20" font-weight="700">e</text>
+  <text x="140" y="32" fill="#5f6368" font-family="system-ui,sans-serif" font-size="14" font-weight="600">Vacation Rentals</text>
+</svg>

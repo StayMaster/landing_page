@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ContactSection from '../../components/ContactSection.astro';
+import BlobBackground from '../../components/BlobBackground.astro';
+import { getContactAnchor } from '../../i18n/config';
+import { getTranslations } from '../../i18n/translations';
+
+const locale = 'ar';
+const t = getTranslations(locale);
+const success = Astro.url.searchParams.get('success') === '1';
+---
+
+<BaseLayout locale={locale} title={t.meta.investorTitle} description={t.meta.investorDescription} path="/investors">
+  <Header locale={locale} currentPath="/investors" />
+  <main class="pb-20">
+    <section class="section-pad relative overflow-hidden">
+      <BlobBackground />
+      <div class="section-shell-wide">
+        <div class="max-w-5xl">
+          <span class="section-label">{t.investors.label}</span>
+          <h1 class="display-title mt-4">{t.investor.title}</h1>
+          <p class="section-subtitle">{t.investor.subtitle}</p>
+        </div>
+
+        <div class="card mt-14 max-w-4xl rounded-[2rem] p-10 md:p-12">
+          <ul class="space-y-4 text-lg text-stone-600 dark:text-stone-400">
+            {t.investors.points.map((point) => (
+              <li class="flex gap-3">
+                <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-brand-600"></span>
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <ContactSection
+      locale={locale}
+      success={success}
+      defaultSubject="investor"
+      returnPath="/investors"
+      returnHash=""
+      formId="investor"
+      showHeader={true}
+      title={t.investors.cta}
+      subtitle={t.investor.subtitle}
+      class="py-12"
+    />
+
+    <div class="section-shell-wide pb-8 text-center text-base text-stone-500">
+      <a href={`${getContactAnchor(locale)}?subject=waitlist`} class="text-brand-600 hover:underline">
+        قائمة انتظار للمشغّلين؟ استخدم نموذج التواصل العام
+      </a>
+    </div>
+  </main>
+  <Footer locale={locale} />
+</BaseLayout>

@@ -1,0 +1,15 @@
+import { defineConfig } from 'astro/config';
+import tailwind from '@astrojs/tailwind';
+import sitemap from '@astrojs/sitemap';
+
+export default defineConfig({
+  site: 'https://rently.pro',
+  integrations: [tailwind(), sitemap()],
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'ar'],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
+});

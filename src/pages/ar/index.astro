@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
+import Sections from '../../components/Sections.astro';
+import PricingSection from '../../components/PricingSection.astro';
+import InvestorSection from '../../components/InvestorSection.astro';
+import FaqSection from '../../components/FaqSection.astro';
+import CtaSection from '../../components/CtaSection.astro';
+import ContactSection from '../../components/ContactSection.astro';
+import Footer from '../../components/Footer.astro';
+import { getTranslations } from '../../i18n/translations';
+
+const locale = 'ar';
+const t = getTranslations(locale);
+const success = Astro.url.searchParams.get('success') === '1';
+---
+
+<BaseLayout locale={locale} title={t.meta.homeTitle} description={t.meta.homeDescription} path="/">
+  <Header locale={locale} currentPath="/" />
+  <main>
+    <Hero locale={locale} />
+    <Sections locale={locale} />
+    <PricingSection locale={locale} />
+    <InvestorSection locale={locale} />
+    <FaqSection locale={locale} />
+    <CtaSection locale={locale} />
+    <ContactSection locale={locale} success={success} returnPath="/" returnHash="#contact" />
+  </main>
+  <Footer locale={locale} />
+</BaseLayout>

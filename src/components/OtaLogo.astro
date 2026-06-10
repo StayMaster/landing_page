@@ -1,0 +1,25 @@
+---
+interface Props {
+  slug: string;
+  name: string;
+  live?: boolean;
+  comingSoonLabel?: string;
+  class?: string;
+}
+
+const { slug, name, live = false, comingSoonLabel, class: className = '' } = Astro.props;
+---
+
+<div class={`relative flex items-center justify-center rounded-2xl border border-stone-200 bg-white p-4 dark:border-stone-700 dark:bg-stone-900 ${!live ? 'opacity-70' : ''} ${className}`}>
+  {!live && comingSoonLabel && (
+    <span class="absolute -top-2.5 end-3 rounded-full bg-stone-200 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-stone-600 dark:bg-stone-700 dark:text-stone-300">
+      {comingSoonLabel}
+    </span>
+  )}
+  <img
+    src={`/logos/${slug}.svg`}
+    alt={name}
+    class={`max-h-10 w-auto max-w-full object-contain ${!live ? 'grayscale' : ''}`}
+    loading="lazy"
+  />
+</div>

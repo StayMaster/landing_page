@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ContactSection from '../../components/ContactSection.astro';
+import { getContactAnchor } from '../../i18n/config';
+import { getTranslations } from '../../i18n/translations';
+import type { ContactSubjectId } from '../../lib/contact-subjects';
+
+const locale = 'ar';
+const t = getTranslations(locale);
+const success = Astro.url.searchParams.get('success') === '1';
+const subjectParam = Astro.url.searchParams.get('subject') as ContactSubjectId | null;
+const defaultSubject = subjectParam ?? 'waitlist';
+---
+
+<BaseLayout locale={locale} title={t.meta.contactTitle} description={t.meta.contactDescription} path="/contact">
+  <Header locale={locale} currentPath="/contact" />
+  <main class="pb-20">
+    <div class="section-shell-wide pt-28 md:pt-32">
+      <div class="max-w-4xl">
+        <h1 class="display-title">{t.contact.title}</h1>
+        <p class="section-subtitle">{t.contact.subtitle}</p>
+        <p class="mt-6 text-xl text-stone-600 dark:text-stone-400">{t.contact.pageIntro}</p>
+      </div>
+    </div>
+
+    <ContactSection
+      locale={locale}
+      success={success}
+      defaultSubject={defaultSubject}
+      returnPath="/contact"
+      returnHash=""
+      formId="page"
+      showHeader={false}
+      class="py-12"
+    />
+
+    <div class="section-shell-wide pb-16">
+      <div class="card max-w-4xl rounded-[2rem] p-10 md:p-12">
+        <h2 class="text-xl font-bold text-stone-900 dark:text-white">{t.contact.pageAsideTitle}</h2>
+        <ul class="mt-6 space-y-3 text-base text-stone-600 dark:text-stone-400">
+          {t.contact.pageAsideItems.map((item) => (
+            <li class="flex gap-3">
+              <span class="text-brand-600">→</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-8 text-sm text-stone-500">
+          <a href={getContactAnchor(locale)} class="text-brand-600 hover:underline">العودة لقسم التواصل في الصفحة الرئيسية</a>
+        </p>
+      </div>
+    </div>
+  </main>
+  <Footer locale={locale} />
+</BaseLayout>

@@ -1,0 +1,45 @@
+---
+import type { Locale } from '../i18n/config';
+import { getLocalizedPath } from '../i18n/config';
+import { getTranslations } from '../i18n/translations';
+import BlobBackground from './BlobBackground.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+---
+
+<section class="section-pad relative overflow-hidden" id="investors">
+  <BlobBackground />
+  <div class="section-shell-wide">
+    <div class="overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-stone-900 via-stone-900 to-brand-950 p-10 shadow-2xl md:p-16 lg:p-20 xl:p-24">
+      <div class="grid items-center gap-12 xl:grid-cols-2 xl:gap-20">
+        <div class="animate-on-scroll">
+          <span class="section-label text-brand-400">{t.investors.label}</span>
+          <h2 class="display-title mt-4 text-white">{t.investors.title}</h2>
+          <p class="mt-6 text-xl leading-relaxed text-stone-300 md:text-2xl">{t.investors.subtitle}</p>
+          <ul class="mt-10 space-y-5">
+            {t.investors.points.map((point) => (
+              <li class="flex gap-4 text-lg text-stone-200 md:text-xl">
+                <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-brand-400"></span>
+                {point}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="card animate-on-scroll delay-100 rounded-[2rem] border-stone-700/50 bg-white/5 p-10 backdrop-blur-md md:p-12">
+          <p class="text-sm font-bold uppercase tracking-[0.2em] text-brand-400">{t.investors.cardLabel}</p>
+          <p class="mt-4 text-3xl font-bold text-white md:text-4xl">{t.investors.cardTitle}</p>
+          <p class="mt-4 text-lg text-stone-300 md:text-xl">{t.investors.cardText}</p>
+          <a href={getLocalizedPath('/investors', locale)} class="btn-primary mt-10 inline-flex">
+            {t.investors.cta}
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

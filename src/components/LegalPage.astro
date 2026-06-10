@@ -1,0 +1,20 @@
+---
+import type { Locale } from '../i18n/config';
+import { getTranslations } from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+  content: string;
+}
+
+const { locale, content } = Astro.props;
+const t = getTranslations(locale);
+---
+
+<article class="prose-legal animate-on-scroll is-visible">
+  <Fragment set:html={content} />
+  <div class="mt-12 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950/50 dark:text-amber-200">
+    <p><strong>{t.legal.lastUpdated}</strong></p>
+    <p class="mt-2">{t.legal.disclaimer}</p>
+  </div>
+</article>

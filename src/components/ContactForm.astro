@@ -1,0 +1,151 @@
+---
+import type { Locale } from '../i18n/config';
+import { siteConfig, getLocalizedPath } from '../i18n/config';
+import { getTranslations } from '../i18n/translations';
+import { getContactSubjectOptions, type ContactSubjectId } from '../lib/contact-subjects';
+
+interface Props {
+  locale: Locale;
+  success?: boolean;
+  /** Subject option id to pre-select */
+  defaultSubject?: ContactSubjectId;
+  /** Path for FormSubmit redirect after success, e.g. `/` or `/contact` */
+  returnPath?: string;
+  /** Hash appended after success redirect, e.g. `#contact` */
+  returnHash?: string;
+  /** Unique id suffix when multiple forms exist on one page */
+  formId?: string;
+}
+
+const {
+  locale,
+  success = false,
+  defaultSubject = 'waitlist',
+  returnPath = '/contact',
+  returnHash = '',
+  formId = 'main',
+} = Astro.props;
+
+const t = getTranslations(locale);
+const subjectOptions = getContactSubjectOptions(locale);
+const defaultOption =
+  subjectOptions.find((o) => o.id === defaultSubject) ?? subjectOptions[0];
+
+const nextUrl = `${siteConfig.domain}${getLocalizedPath(returnPath, locale)}?success=1${returnHash}`;
+const subjectSelectId = `contact-subject-${formId}`;
+const subjectDescId = `contact-subject-desc-${formId}`;
+---
+
+<div class="card rounded-[2rem] p-8 md:p-10" data-contact-form={formId}>
+  {success ? (
+    <div class="rounded-2xl bg-brand-50 p-6 text-brand-800 dark:bg-brand-950 dark:text-brand-200">
+      <p class="text-lg font-semibold">{t.contact.success}</p>
+    </div>
+  ) : (
+    <form class="space-y-6" action={siteConfig.formSubmitEndpoint} method="POST">
+      <input type="hidden" name="_next" value={nextUrl} />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_autoresponse" value="Thank you for contacting Rently.pro. We'll be in touch soon." />
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+
+      <div>
+        <label for={subjectSelectId} class="mb-2 block text-sm font-medium text-stone-700 dark:text-stone-300">
+          {t.contact.subjectLabel}
+        </label>
+        <select
+          id={subjectSelectId}
+          name="_subject"
+          required
+          class="w-full rounded-2xl border border-stone-300 bg-white px-5 py-4 text-base text-stone-900 transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-stone-700 dark:bg-stone-900 dark:text-white"
+          data-subject-select
+        >
+          {subjectOptions.map((option) => (
+            <option value={option.emailSubject} data-id={option.id} selected={option.id === defaultOption.id}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <p id={subjectDescId} class="mt-2 text-sm text-stone-500 dark:text-stone-400" data-subject-desc>
+          {defaultOption.description}
+        </p>
+      </div>
+
+      <div>
+        <label for={`contact-name-${formId}`} class="mb-2 block text-sm font-medium text-stone-700 dark:text-stone-300">{t.contact.name}</label>
+        <input
+          type="text"
+          id={`contact-name-${formId}`}
+          name="name"
+          required
+          class="w-full rounded-2xl border border-stone-300 bg-white px-5 py-4 text-base text-stone-900 transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-stone-700 dark:bg-stone-900 dark:text-white"
+        />
+      </div>
+
+      <div>
+        <label for={`contact-email-${formId}`} class="mb-2 block text-sm font-medium text-stone-700 dark:text-stone-300">{t.contact.email}</label>
+        <input
+          type="email"
+          id={`contact-email-${formId}`}
+          name="email"
+          required
+          class="w-full rounded-2xl border border-stone-300 bg-white px-5 py-4 text-base text-stone-900 transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-stone-700 dark:bg-stone-900 dark:text-white"
+        />
+      </div>
+
+      <div>
+        <label for={`contact-company-${formId}`} class="mb-2 block text-sm font-medium text-stone-700 dark:text-stone-300">{t.contact.company}</label>
+        <input
+          type="text"
+          id={`contact-company-${formId}`}
+          name="company"
+          class="w-full rounded-2xl border border-stone-300 bg-white px-5 py-4 text-base text-stone-900 transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-stone-700 dark:bg-stone-900 dark:text-white"
+        />
+      </div>
+
+      <div>
+        <label for={`contact-message-${formId}`} class="mb-2 block text-sm font-medium text-stone-700 dark:text-stone-300">{t.contact.message}</label>
+        <textarea
+          id={`contact-message-${formId}`}
+          name="message"
+          rows="5"
+          required
+          placeholder={t.contact.messagePlaceholder}
+          class="w-full rounded-2xl border border-stone-300 bg-white px-5 py-4 text-base text-stone-900 transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-stone-700 dark:bg-stone-900 dark:text-white"
+        ></textarea>
+      </div>
+
+      <button type="submit" class="btn-primary w-full sm:w-auto">{t.contact.submit}</button>
+    </form>
+  )}
+</div>
+
+<script define:vars={{ subjectOptions, subjectSelectId, subjectDescId, defaultSubject }}>
+  const select = document.getElementById(subjectSelectId);
+  const desc = document.getElementById(subjectDescId);
+
+  function updateDescription() {
+    if (!select || !desc) return;
+    const selected = select.options[select.selectedIndex];
+    const id = selected?.getAttribute('data-id');
+    const option = subjectOptions.find((o) => o.id === id);
+    if (option) desc.textContent = option.description;
+  }
+
+  select?.addEventListener('change', updateDescription);
+
+  const params = new URLSearchParams(window.location.search);
+  const subjectParam = params.get('subject') || defaultSubject;
+  if (select && subjectParam) {
+    const match = subjectOptions.find((o) => o.id === subjectParam);
+    if (match) {
+      for (const opt of select.options) {
+        if (opt.getAttribute('data-id') === match.id) {
+          opt.selected = true;
+          break;
+        }
+      }
+      updateDescription();
+    }
+  }
+</script>

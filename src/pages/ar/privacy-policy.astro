@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import LegalPage from '../../components/LegalPage.astro';
+import { getTranslations } from '../../i18n/translations';
+import { renderLegalMarkdown } from '../../lib/legal';
+
+const locale = 'ar';
+const t = getTranslations(locale);
+const content = renderLegalMarkdown(locale, 'privacy-policy');
+---
+
+<BaseLayout locale={locale} title={t.meta.privacyTitle} description={t.meta.privacyDescription} path="/privacy-policy">
+  <Header locale={locale} currentPath="/privacy-policy" />
+  <main class="pt-28 pb-20">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div class="card rounded-4xl p-8 sm:p-12">
+        <LegalPage locale={locale} content={content} />
+      </div>
+    </div>
+  </main>
+  <Footer locale={locale} />
+</BaseLayout>
