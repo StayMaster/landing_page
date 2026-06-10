@@ -1,9 +1,19 @@
 ---
-/** Decorative gradient blobs — place inside a `relative overflow-hidden` section */
+import { getBlobConfigs } from '../lib/section-effects';
+
+interface Props {
+  seed?: string;
+}
+
+const { seed = 'default' } = Astro.props;
+const blobs = getBlobConfigs(seed, 3);
 ---
 
 <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
-  <div class="blob blob-brand absolute -top-32 end-[-10%] h-[min(680px,80vw)] w-[min(680px,80vw)] rounded-full bg-brand-400/25 blur-3xl dark:bg-brand-500/15"></div>
-  <div class="blob blob-emerald absolute bottom-[-20%] start-[-15%] h-[min(560px,70vw)] w-[min(560px,70vw)] rounded-full bg-emerald-300/30 blur-3xl dark:bg-emerald-600/10"></div>
-  <div class="blob blob-violet absolute top-1/3 start-1/2 h-[min(400px,50vw)] w-[min(400px,50vw)] -translate-x-1/2 rounded-full bg-violet-400/10 blur-3xl dark:bg-violet-600/10"></div>
+  {blobs.map((blob, i) => (
+    <div
+      class={`blob absolute rounded-full blur-3xl ${blob.colorClass}`}
+      style={`top: ${blob.top}; left: ${blob.left}; width: min(${blob.size}, 80vw); height: min(${blob.size}, 80vw); animation-delay: ${blob.delay};`}
+    />
+  ))}
 </div>

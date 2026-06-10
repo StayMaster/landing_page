@@ -1,34 +1,70 @@
 ---
+
 import type { Locale } from '../i18n/config';
+
 import { siteConfig, getContactAnchor } from '../i18n/config';
+
 import { getTranslations } from '../i18n/translations';
 
+import PhotoWallBackground from './PhotoWallBackground.astro';
+
+
+
 interface Props {
+
   locale: Locale;
+
 }
 
+
+
 const { locale } = Astro.props;
+
 const t = getTranslations(locale);
+
 ---
 
-<section class="section-pad relative overflow-hidden">
+
+
+<section class="section-pad relative overflow-hidden bg-stone-100 dark:bg-stone-900" id="cta">
+
   <div class="section-shell-wide">
-    <div class="animate-on-scroll relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-brand-600 via-brand-700 to-emerald-800 px-8 py-20 text-center shadow-2xl shadow-brand-600/30 md:px-16 md:py-28 lg:px-24">
-      <div class="pointer-events-none absolute -top-24 end-0 h-80 w-80 rounded-full bg-white/10 blur-3xl"></div>
-      <div class="pointer-events-none absolute -bottom-24 start-0 h-80 w-80 rounded-full bg-emerald-400/20 blur-3xl"></div>
-      <div class="relative">
-        <h2 class="display-title text-white">{t.cta.title}</h2>
-        <p class="mx-auto mt-6 max-w-3xl text-xl text-brand-100 md:text-2xl">{t.cta.subtitle}</p>
+
+    <div class="photo-wall-section animate-on-scroll relative overflow-hidden rounded-[2.5rem] px-8 py-20 text-center md:px-16 md:py-28 lg:px-24">
+
+      <PhotoWallBackground seed="cta" />
+
+      <div class="photo-wall-center relative z-10">
+
+        <span class="section-label">{t.cta.label}</span>
+
+        <h2 class="display-title mt-4 text-stone-900 dark:text-white">{t.cta.title}</h2>
+
+        <p class="mx-auto mt-6 max-w-3xl text-xl text-stone-600 md:text-2xl dark:text-stone-300">{t.cta.subtitle}</p>
+
         <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <a href={siteConfig.userjotUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full bg-white px-10 py-4 text-base font-bold text-brand-700 shadow-xl transition hover:bg-brand-50">
+
+          <a href={siteConfig.userjotUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full bg-brand-600 px-10 py-4 text-base font-bold text-white shadow-xl shadow-brand-600/30 transition hover:bg-brand-500">
+
             {t.cta.featureButton}
+
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+
           </a>
-          <a href={`${getContactAnchor(locale)}?subject=waitlist`} class="inline-flex items-center gap-2 rounded-full border-2 border-white/40 px-10 py-4 text-base font-bold text-white transition hover:bg-white/10">
+
+          <a href={`${getContactAnchor(locale)}?subject=waitlist`} class="inline-flex items-center gap-2 rounded-full border-2 border-stone-900/15 bg-white/90 px-10 py-4 text-base font-bold text-stone-900 backdrop-blur-sm transition hover:bg-white dark:border-white/30 dark:bg-stone-950/80 dark:text-white dark:hover:bg-stone-900">
+
             {t.cta.contactButton}
+
           </a>
+
         </div>
+
       </div>
+
     </div>
+
   </div>
+
 </section>
+

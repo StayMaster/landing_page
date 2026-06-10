@@ -16,7 +16,7 @@ const success = Astro.url.searchParams.get('success') === '1';
   <Header locale={locale} currentPath="/investors" />
   <main class="pb-20">
     <section class="section-pad relative overflow-hidden">
-      <BlobBackground />
+      <BlobBackground seed="investors-page" />
       <div class="section-shell-wide">
         <div class="max-w-5xl">
           <span class="section-label">{t.investors.label}</span>

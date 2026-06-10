@@ -82,7 +82,7 @@ export interface Translations {
     note: string;
     sliderLabel: string;
     currency: string;
-    perMonth: string;
+    perPropertyPerMonth: string;
     getQuote: string;
     trial: { name: string; tagline: string; price: string; features: string[] };
     basic: { name: string; tagline: string; features: string[] };
@@ -96,6 +96,7 @@ export interface Translations {
     items: { question: string; answer: string }[];
   };
   cta: {
+    label: string;
     title: string;
     subtitle: string;
     featureButton: string;
@@ -304,17 +305,17 @@ const en: Translations = {
   pricing: {
     label: 'Plans',
     title: 'Pricing that scales with your portfolio',
-    subtitle: 'Sample monthly pricing per portfolio in SAR. Drag the slider to see how plans adjust by property count.',
+    subtitle: 'Sample pricing per property per month in SAR. Drag the slider to see how plans adjust by property count.',
     note: 'Illustrative pricing — final rates confirmed before billing launch. 31+ properties: contact us for a custom quote.',
     sliderLabel: 'How many properties do you manage?',
     currency: 'SAR',
-    perMonth: '/ month',
+    perPropertyPerMonth: '/ property / month',
     getQuote: 'Contact us for a quote',
     trial: {
       name: 'Free Trial',
-      tagline: 'Try everything for one month',
+      tagline: 'One month free — up to 3 properties',
       price: 'Free',
-      features: ['Full platform access', 'Airbnb or Gathern connection', 'All core PMS features', 'No credit card required'],
+      features: ['Up to 3 properties', 'Full platform access', 'Airbnb or Gathern connection', 'All core PMS features', 'No credit card required'],
     },
     basic: {
       name: 'Basic',
@@ -390,6 +391,7 @@ const en: Translations = {
     ],
   },
   cta: {
+    label: 'Ready to try it?',
     title: 'Ready to simplify your rental operations?',
     subtitle: 'Join early access or tell us what feature you need most on Userjot.',
     featureButton: 'Request a Feature',
@@ -578,17 +580,17 @@ const ar: Translations = {
   pricing: {
     label: 'الخطط',
     title: 'أسعار تتوسع مع محفظتك',
-    subtitle: 'أسعار شهرية تقريبية لكل محفظة بالريال. حرّك الشريط لمعرفة كيف تتغير الخطط بعدد العقارات.',
+    subtitle: 'أسعار تقريبية لكل عقار شهرياً بالريال. حرّك الشريط لمعرفة كيف تتغير الخطط بعدد العقارات.',
     note: 'أسعار توضيحية — الأسعار النهائية تُؤكد قبل إطلاق الفوترة. 31+ عقار: تواصل للحصول على عرض.',
     sliderLabel: 'كم عقاراً تدير؟',
     currency: 'ريال',
-    perMonth: '/ شهر',
+    perPropertyPerMonth: '/ عقار / شهر',
     getQuote: 'تواصل للحصول على عرض',
     trial: {
       name: 'تجربة مجانية',
-      tagline: 'جرّب كل شيء لمدة شهر',
+      tagline: 'شهر مجاني — حتى 3 عقارات',
       price: 'مجاني',
-      features: ['وصول كامل للمنصة', 'اتصال Airbnb أو Gathern', 'جميع مميزات PMS الأساسية', 'بدون بطاقة ائتمان'],
+      features: ['حتى 3 عقارات', 'وصول كامل للمنصة', 'اتصال Airbnb أو Gathern', 'جميع مميزات PMS الأساسية', 'بدون بطاقة ائتمان'],
     },
     basic: {
       name: 'Basic',
@@ -656,6 +658,7 @@ const ar: Translations = {
     ],
   },
   cta: {
+    label: 'مستعد للتجربة؟',
     title: 'مستعد لتبسيط عمليات الإيجار؟',
     subtitle: 'انضم للوصول المبكر أو أخبرنا ما الميزة التي تحتاجها على Userjot.',
     featureButton: 'اطلب ميزة',

@@ -28,4 +28,5 @@ const success = Astro.url.searchParams.get('success') === '1';
     <ContactSection locale={locale} success={success} returnPath="/" returnHash="#contact" />
   </main>
   <Footer locale={locale} />
+  <script src="../../scripts/audience-rail.ts"></script>
 </BaseLayout>

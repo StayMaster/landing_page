@@ -63,7 +63,6 @@ const tierLabels = {
         <p class="mt-3 text-base text-stone-600 dark:text-stone-400">{t.pricing.trial.tagline}</p>
         <div class="mt-8">
           <span class="text-5xl font-extrabold text-brand-600">{t.pricing.trial.price}</span>
-          <span class="ms-1 text-stone-500">{t.pricing.trial.tagline.includes('month') || t.pricing.trial.tagline.includes('شهر') ? '' : t.pricing.perMonth}</span>
         </div>
         <ul class="mt-8 space-y-3">
           {t.pricing.trial.features.map((f) => (
@@ -81,7 +80,7 @@ const tierLabels = {
         <p class="mt-3 text-base text-stone-600 dark:text-stone-400">{t.pricing.basic.tagline}</p>
         <div class="mt-8" id="basic-price-wrap">
           <span class="text-5xl font-extrabold text-brand-600" id="basic-price">99</span>
-          <span class="ms-1 text-stone-500">{t.pricing.currency} {t.pricing.perMonth}</span>
+          <span class="ms-1 text-stone-500">{t.pricing.currency} {t.pricing.perPropertyPerMonth}</span>
         </div>
         <p class="mt-1 hidden text-lg font-semibold text-stone-600 dark:text-stone-400" id="basic-quote">{t.pricing.getQuote}</p>
         <ul class="mt-8 space-y-3">
@@ -101,7 +100,7 @@ const tierLabels = {
         <p class="mt-3 text-base text-stone-600 dark:text-stone-400">{t.pricing.pro.tagline}</p>
         <div class="mt-8" id="pro-price-wrap">
           <span class="text-5xl font-extrabold text-brand-600" id="pro-price">299</span>
-          <span class="ms-1 text-stone-500">{t.pricing.currency} {t.pricing.perMonth}</span>
+          <span class="ms-1 text-stone-500">{t.pricing.currency} {t.pricing.perPropertyPerMonth}</span>
         </div>
         <p class="mt-1 hidden text-lg font-semibold text-stone-600 dark:text-stone-400" id="pro-quote">{t.pricing.getQuote}</p>
         <ul class="mt-8 space-y-3">

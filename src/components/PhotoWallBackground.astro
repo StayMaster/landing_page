@@ -1,0 +1,22 @@
+---
+import { getPhotoWallTiles } from '../lib/section-effects';
+
+interface Props {
+  seed?: string;
+}
+
+const { seed = 'cta' } = Astro.props;
+const tiles = getPhotoWallTiles(seed);
+---
+
+<div class="photo-wall pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+  <div class="photo-wall-grid">
+    {tiles.map((tile) => (
+      <div
+        class="photo-wall-tile"
+        style={`left:${tile.left};top:${tile.top};width:${tile.width}px;height:${tile.height}px;--r:${tile.rotate}deg;background-image:url(${tile.image});`}
+      />
+    ))}
+  </div>
+  <div class="photo-wall-vignette absolute inset-0"></div>
+</div>

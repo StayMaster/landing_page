@@ -1,0 +1,19 @@
+---
+import { getSectionGlows } from '../lib/section-effects';
+
+interface Props {
+  seed: string;
+  count?: number;
+}
+
+const { seed, count = 2 } = Astro.props;
+const glows = getSectionGlows(seed, count);
+---
+
+{glows.map((glow) => (
+  <div
+    class="section-glow pointer-events-none absolute inset-0 -z-10"
+    aria-hidden="true"
+    style={`background: radial-gradient(ellipse ${glow.width}% ${glow.height}% at ${glow.x}% ${glow.y}%, ${glow.color}, transparent 65%); opacity: ${glow.opacity};`}
+  />
+))}
