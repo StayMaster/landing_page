@@ -1,8 +1,6 @@
 ---
 import type { Locale } from '../i18n/config';
-import { getLocalizedPath, getContactAnchor } from '../i18n/config';
 import { getTranslations } from '../i18n/translations';
-import { pricingTiers } from '../lib/pricing';
 
 interface Props {
   locale: Locale;
@@ -25,9 +23,23 @@ const tierLabels = {
     enterprise: '31+ عقار',
   },
 };
+
+const pricingConfig = JSON.stringify({
+  currency: t.pricing.currency,
+  perMonthTotal: t.pricing.perMonthTotal,
+  perYearTotal: t.pricing.perYearTotal,
+  volumeDiscount: t.pricing.volumeDiscount,
+  priceBreakdown: t.pricing.priceBreakdown,
+  tierLabels: tierLabels[locale],
+});
 ---
 
-<section class="section-pad relative overflow-hidden bg-stone-100/60 dark:bg-stone-900/40" id="plans">
+<section
+  class="section-pad relative overflow-hidden bg-stone-100/60 dark:bg-stone-900/40"
+  id="plans"
+  data-locale={locale}
+  data-pricing-config={pricingConfig}
+>
   <div class="section-shell-wide">
     <div class="max-w-5xl animate-on-scroll">
       <span class="section-label">{t.pricing.label}</span>
@@ -43,28 +55,59 @@ const tierLabels = {
       <div class="mt-4 flex items-center gap-4">
         <input
           id="property-slider"
+          data-property-slider
           type="range"
           min="1"
           max="40"
+          step="1"
           value="2"
           class="h-2 w-full cursor-pointer appearance-none rounded-full bg-stone-200 accent-brand-600 dark:bg-stone-700"
         />
-        <output id="property-count" class="min-w-[3rem] text-center text-2xl font-extrabold text-brand-600">2</output>
+        <output id="property-count" data-property-count for="property-slider" class="min-w-[3rem] text-center text-2xl font-extrabold text-brand-600">2</output>
       </div>
-      <p id="property-tier-label" class="mt-2 text-center text-sm text-stone-500 dark:text-stone-400">
+      <p id="property-tier-label" data-property-tier-label class="mt-2 text-center text-sm text-stone-500 dark:text-stone-400">
         {tierLabels[locale].starter}
       </p>
     </div>
 
-    <div class="mt-14 grid gap-8 lg:grid-cols-3">
+    <div class="mt-10 flex justify-center animate-on-scroll">
+      <div
+        class="inline-flex rounded-full border border-stone-200 bg-white p-1.5 shadow-sm dark:border-stone-700 dark:bg-stone-900"
+        role="group"
+        aria-label="Billing period"
+        data-billing-toggle
+      >
+        <button
+          type="button"
+          class="billing-toggle-btn is-active rounded-full px-6 py-2.5 text-sm font-bold transition"
+          data-billing="monthly"
+          aria-pressed="true"
+        >
+          {t.pricing.billingMonthly}
+        </button>
+        <button
+          type="button"
+          class="billing-toggle-btn rounded-full px-6 py-2.5 text-sm font-bold transition"
+          data-billing="yearly"
+          aria-pressed="false"
+        >
+          {t.pricing.billingYearly}
+          <span class="ms-1.5 rounded-full bg-brand-100 px-2 py-0.5 text-xs font-bold text-brand-700 dark:bg-brand-950 dark:text-brand-300">
+            {t.pricing.yearlySaving}
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mt-10 grid gap-8 lg:grid-cols-3" id="pricing-cards">
       <!-- Free Trial -->
-      <div class="card-hover animate-on-scroll p-8 md:p-10">
+      <div class="card-hover animate-on-scroll flex flex-col p-8 md:p-10">
         <h3 class="text-2xl font-extrabold">{t.pricing.trial.name}</h3>
         <p class="mt-3 text-base text-stone-600 dark:text-stone-400">{t.pricing.trial.tagline}</p>
-        <div class="mt-8">
+        <div class="mt-8 min-h-[5.5rem]">
           <span class="text-5xl font-extrabold text-brand-600">{t.pricing.trial.price}</span>
         </div>
-        <ul class="mt-8 space-y-3">
+        <ul class="mt-8 flex-1 space-y-3">
           {t.pricing.trial.features.map((f) => (
             <li class="flex items-start gap-2 text-sm text-stone-600 dark:text-stone-400">
               <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
@@ -72,18 +115,35 @@ const tierLabels = {
             </li>
           ))}
         </ul>
+        <button type="button" class="plan-coming-soon-btn mt-8 w-full" disabled aria-disabled="true">
+          {t.pricing.comingSoon}
+        </button>
       </div>
 
       <!-- Basic -->
-      <div class="card-hover animate-on-scroll delay-100 p-8 md:p-10">
-        <h3 class="text-2xl font-extrabold">{t.pricing.basic.name}</h3>
-        <p class="mt-3 text-base text-stone-600 dark:text-stone-400">{t.pricing.basic.tagline}</p>
-        <div class="mt-8" id="basic-price-wrap">
-          <span class="text-5xl font-extrabold text-brand-600" id="basic-price">99</span>
-          <span class="ms-1 text-stone-500">{t.pricing.currency} {t.pricing.perPropertyPerMonth}</span>
+      <div class="card-hover animate-on-scroll delay-100 flex flex-col p-8 md:p-10" data-plan-card="basic">
+        <div class="flex flex-wrap items-center gap-2">
+          <h3 class="text-2xl font-extrabold">{t.pricing.basic.name}</h3>
+          <span
+            class="hidden rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300"
+            data-discount-badge
+          ></span>
+          <span
+            class="hidden rounded-full bg-brand-100 px-3 py-1 text-xs font-bold text-brand-800 dark:bg-brand-950 dark:text-brand-300"
+            data-yearly-badge
+          >{t.pricing.yearlySaving}</span>
         </div>
-        <p class="mt-1 hidden text-lg font-semibold text-stone-600 dark:text-stone-400" id="basic-quote">{t.pricing.getQuote}</p>
-        <ul class="mt-8 space-y-3">
+        <p class="mt-3 text-base text-stone-600 dark:text-stone-400">{t.pricing.basic.tagline}</p>
+        <div class="mt-8 min-h-[5.5rem]" data-price-wrap>
+          <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <span class="text-5xl font-extrabold text-brand-600" data-price-amount>198</span>
+            <span class="text-stone-500" data-price-period>{t.pricing.currency} {t.pricing.perMonthTotal}</span>
+          </div>
+          <p class="mt-1 hidden text-lg text-stone-400 line-through" data-price-compare></p>
+          <p class="mt-2 text-sm text-stone-500 dark:text-stone-400" data-price-breakdown></p>
+        </div>
+        <p class="mt-1 hidden text-lg font-semibold text-stone-600 dark:text-stone-400" data-quote>{t.pricing.getQuote}</p>
+        <ul class="mt-8 flex-1 space-y-3">
           {t.pricing.basic.features.map((f) => (
             <li class="flex items-start gap-2 text-sm text-stone-600 dark:text-stone-400">
               <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
@@ -91,19 +151,36 @@ const tierLabels = {
             </li>
           ))}
         </ul>
+        <button type="button" class="plan-coming-soon-btn mt-8 w-full" disabled aria-disabled="true">
+          {t.pricing.comingSoon}
+        </button>
       </div>
 
       <!-- Pro -->
-      <div class="card-hover animate-on-scroll delay-200 relative p-8 md:p-10 ring-2 ring-brand-500/40">
+      <div class="card-hover animate-on-scroll delay-200 relative flex flex-col p-8 md:p-10 ring-2 ring-brand-500/40" data-plan-card="pro">
         <span class="absolute -top-3 start-6 rounded-full bg-brand-600 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white">{t.pricing.pro.popular}</span>
-        <h3 class="text-2xl font-extrabold">{t.pricing.pro.name}</h3>
-        <p class="mt-3 text-base text-stone-600 dark:text-stone-400">{t.pricing.pro.tagline}</p>
-        <div class="mt-8" id="pro-price-wrap">
-          <span class="text-5xl font-extrabold text-brand-600" id="pro-price">299</span>
-          <span class="ms-1 text-stone-500">{t.pricing.currency} {t.pricing.perPropertyPerMonth}</span>
+        <div class="flex flex-wrap items-center gap-2">
+          <h3 class="text-2xl font-extrabold">{t.pricing.pro.name}</h3>
+          <span
+            class="hidden rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300"
+            data-discount-badge
+          ></span>
+          <span
+            class="hidden rounded-full bg-brand-100 px-3 py-1 text-xs font-bold text-brand-800 dark:bg-brand-950 dark:text-brand-300"
+            data-yearly-badge
+          >{t.pricing.yearlySaving}</span>
         </div>
-        <p class="mt-1 hidden text-lg font-semibold text-stone-600 dark:text-stone-400" id="pro-quote">{t.pricing.getQuote}</p>
-        <ul class="mt-8 space-y-3">
+        <p class="mt-3 text-base text-stone-600 dark:text-stone-400">{t.pricing.pro.tagline}</p>
+        <div class="mt-8 min-h-[5.5rem]" data-price-wrap>
+          <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <span class="text-5xl font-extrabold text-brand-600" data-price-amount>598</span>
+            <span class="text-stone-500" data-price-period>{t.pricing.currency} {t.pricing.perMonthTotal}</span>
+          </div>
+          <p class="mt-1 hidden text-lg text-stone-400 line-through" data-price-compare></p>
+          <p class="mt-2 text-sm text-stone-500 dark:text-stone-400" data-price-breakdown></p>
+        </div>
+        <p class="mt-1 hidden text-lg font-semibold text-stone-600 dark:text-stone-400" data-quote>{t.pricing.getQuote}</p>
+        <ul class="mt-8 flex-1 space-y-3">
           {t.pricing.pro.features.map((f) => (
             <li class="flex items-start gap-2 text-sm text-stone-600 dark:text-stone-400">
               <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
@@ -111,59 +188,28 @@ const tierLabels = {
             </li>
           ))}
         </ul>
+        <button type="button" class="plan-coming-soon-btn mt-8 w-full" disabled aria-disabled="true">
+          {t.pricing.comingSoon}
+        </button>
       </div>
-    </div>
-
-    <div class="mt-10 text-center">
-      <a href={`${getContactAnchor(locale)}?subject=waitlist`} class="btn-primary">{t.pricing.cta}</a>
     </div>
   </div>
 </section>
 
-<script define:vars={{ pricingTiers, tierLabels, locale, getQuoteLabel: t.pricing.getQuote }}>
-  const slider = document.getElementById('property-slider');
-  const countOut = document.getElementById('property-count');
-  const tierLabel = document.getElementById('property-tier-label');
-  const basicPrice = document.getElementById('basic-price');
-  const proPrice = document.getElementById('pro-price');
-  const basicWrap = document.getElementById('basic-price-wrap');
-  const proWrap = document.getElementById('pro-price-wrap');
-  const basicQuote = document.getElementById('basic-quote');
-  const proQuote = document.getElementById('pro-quote');
-
-  const labels = tierLabels[locale];
-
-  function updatePricing(count) {
-    const n = Number(count);
-    countOut.textContent = n >= 31 ? '31+' : String(n);
-
-    let tier = pricingTiers[0];
-    if (n >= 31) tier = pricingTiers[3];
-    else if (n >= 11) tier = pricingTiers[2];
-    else if (n >= 4) tier = pricingTiers[1];
-
-    tierLabel.textContent = labels[tier.id];
-
-    const isQuote = tier.id === 'enterprise';
-
-    basicWrap?.classList.toggle('hidden', isQuote);
-    proWrap?.classList.toggle('hidden', isQuote);
-    basicQuote?.classList.toggle('hidden', !isQuote);
-    proQuote?.classList.toggle('hidden', !isQuote);
-
-    if (!isQuote && basicPrice && proPrice) {
-      basicPrice.textContent = String(tier.basicPrice);
-      proPrice.textContent = String(tier.proPrice);
-    }
-
-    if (typeof window.posthog !== 'undefined') {
-      window.posthog.capture('pricing_slider_changed', {
-        property_count: n,
-        tier: tier.id,
-      });
-    }
+<style>
+  .billing-toggle-btn {
+    @apply text-stone-500 dark:text-stone-400;
   }
 
-  slider?.addEventListener('input', (e) => updatePricing(e.target.value));
-  updatePricing(slider?.value ?? 2);
-</script>
+  .billing-toggle-btn.is-active {
+    @apply bg-brand-600 text-white shadow-md shadow-brand-600/25;
+  }
+
+  .billing-toggle-btn.is-active span {
+    @apply bg-white/20 text-white;
+  }
+
+  .plan-coming-soon-btn {
+    @apply inline-flex cursor-not-allowed items-center justify-center rounded-full border-2 border-stone-200 bg-stone-100 px-8 py-4 text-base font-bold text-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-500;
+  }
+</style>

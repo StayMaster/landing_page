@@ -83,11 +83,19 @@ export interface Translations {
     sliderLabel: string;
     currency: string;
     perPropertyPerMonth: string;
+    perMonthTotal: string;
+    perYearTotal: string;
+    billingMonthly: string;
+    billingYearly: string;
+    yearlySaving: string;
+    volumeDiscount: string;
+    priceBreakdown: string;
     getQuote: string;
     trial: { name: string; tagline: string; price: string; features: string[] };
     basic: { name: string; tagline: string; features: string[] };
     pro: { name: string; tagline: string; features: string[]; popular: string };
     cta: string;
+    comingSoon: string;
   };
   faq: {
     label: string;
@@ -305,11 +313,18 @@ const en: Translations = {
   pricing: {
     label: 'Plans',
     title: 'Pricing that scales with your portfolio',
-    subtitle: 'Sample pricing per property per month in SAR. Drag the slider to see how plans adjust by property count.',
+    subtitle: 'Sample per-property pricing in SAR. Totals update with your property count — higher tiers unlock volume discounts.',
     note: 'Illustrative pricing — final rates confirmed before billing launch. 31+ properties: contact us for a custom quote.',
     sliderLabel: 'How many properties do you manage?',
     currency: 'SAR',
     perPropertyPerMonth: '/ property / month',
+    perMonthTotal: '/ month total',
+    perYearTotal: '/ year total',
+    billingMonthly: 'Monthly',
+    billingYearly: 'Yearly',
+    yearlySaving: '2 months free',
+    volumeDiscount: '{percent}% volume discount',
+    priceBreakdown: '{count} properties × {rate} {currency}',
     getQuote: 'Contact us for a quote',
     trial: {
       name: 'Free Trial',
@@ -342,6 +357,7 @@ const en: Translations = {
       ],
     },
     cta: 'Get Early Access',
+    comingSoon: 'Coming soon',
   },
   faq: {
     label: 'FAQ',
@@ -580,11 +596,18 @@ const ar: Translations = {
   pricing: {
     label: 'الخطط',
     title: 'أسعار تتوسع مع محفظتك',
-    subtitle: 'أسعار تقريبية لكل عقار شهرياً بالريال. حرّك الشريط لمعرفة كيف تتغير الخطط بعدد العقارات.',
+    subtitle: 'أسعار تقريبية لكل عقار بالريال. الإجمالي يتحدث مع عدد العقارات — المستويات الأعلى تفتح خصومات الحجم.',
     note: 'أسعار توضيحية — الأسعار النهائية تُؤكد قبل إطلاق الفوترة. 31+ عقار: تواصل للحصول على عرض.',
     sliderLabel: 'كم عقاراً تدير؟',
     currency: 'ريال',
     perPropertyPerMonth: '/ عقار / شهر',
+    perMonthTotal: '/ إجمالي شهري',
+    perYearTotal: '/ إجمالي سنوي',
+    billingMonthly: 'شهري',
+    billingYearly: 'سنوي',
+    yearlySaving: 'شهران مجاناً',
+    volumeDiscount: 'خصم حجم {percent}%',
+    priceBreakdown: '{count} عقارات × {rate} {currency}',
     getQuote: 'تواصل للحصول على عرض',
     trial: {
       name: 'تجربة مجانية',
@@ -617,6 +640,7 @@ const ar: Translations = {
       ],
     },
     cta: 'احصل على وصول مبكر',
+    comingSoon: 'قريباً',
   },
   faq: {
     label: 'الأسئلة الشائعة',
